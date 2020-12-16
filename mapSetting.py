@@ -1,6 +1,9 @@
 import json
+import os
 
-geo_path = './map/skorea-municipalities-2018-geo.json'
+os.path.abspath('Project/map')
+
+geo_path = os.path.abspath('Project/map') + '/skorea-municipalities-2018-geo.json'
 geo_str = json.load(open(geo_path, encoding='utf-8'))
 
 #json 데이터 안다듬어주면 전국단위로 난리남
