@@ -11,12 +11,13 @@ max_dataV = [0,0,0]
 #19년 20년 월별 데이터 생성
 data2019 = {}
 data2020 = {}
+seoul_subway_dataF = os.path.abspath('Project/seoul_subway_data') + '/'
 
 def csv_to_dataFrame(year,dataY):
     global min_dataV,max_dataV
     year = str(year)
     
-    for csvF in os.listdir('./seoul_subway_data/{}'.format(year)):
+    for csvF in os.listdir(seoul_subway_dataF + '{}'.format(year)):
         #19년도 데이터 안에 이미 데이터가 있으면 넘어가고 없으면 기본값으로 추가
         if not 'data' + csvF[-10:-4] in dataY.keys():
             dataY.setdefault('data' + csvF[-10:-4])
@@ -24,10 +25,9 @@ def csv_to_dataFrame(year,dataY):
             continue
 
         try:
-            data = pd.read_csv('./seoul_subway_data/' + year + '/' + csvF,encoding = 'UTF-8',index_col=False)
+            data = pd.read_csv(seoul_subway_dataF + year + '/' + csvF,encoding = 'UTF-8',index_col=False)
         except Exception as e:
-            data = pd.read_csv('./seoul_subway_data/' + year + '/' + csvF,encoding = 'EUC-KR',index_col=False)
-            print(e)
+            data = pd.read_csv(seoul_subway_dataF + year + '/' + csvF,encoding = 'EUC-KR',index_col=False)
         dataY['data' + csvF[-10:-4]] = data
         
         
@@ -127,7 +127,7 @@ csv_to_dataFrame(2020,data2020)
 
 terminate_time = timeit.default_timer() # 종료 시간 체크  
 
-gu_sta_name = pd.read_csv('./seoul_subway_data/구_역명.csv',encoding='utf-8')
+gu_sta_name = pd.read_csv(seoul_subway_dataF + '구_역명.csv',encoding='utf-8')
 
 def insert_gu(dataY):
     #데이터에 구 추가

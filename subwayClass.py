@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import mapSetting
 from setupData import DATA
+import os
 
 geo_str = mapSetting.geo_str
 
@@ -31,8 +32,7 @@ class subwayData:
         except:
             print('__init__ : No data')
             return None
-        
-        loc_csv = pd.read_csv('./seoul_subway_data/구_역명_경위도.csv')
+        loc_csv = pd.read_csv(os.path.abspath('Project/seoul_subway_data') + '/' + '구_역명_경위도.csv')
         #for문 안돌리고 바로 '구'를 찾기 위해 stack처리
         tmp_loc = loc_csv.stack()
 
