@@ -32,7 +32,7 @@ class subwayData:
         except:
             print('__init__ : No data')
             return None
-        loc_csv = pd.read_csv(os.path.abspath('Project/seoul_subway_data') + '/' + '구_역명_경위도.csv')
+        loc_csv = pd.read_csv(os.path.abspath('seoul_subway_data') + '/' + 'Lat_Long.csv')
         #for문 안돌리고 바로 '구'를 찾기 위해 stack처리
         tmp_loc = loc_csv.stack()
 
@@ -121,23 +121,24 @@ class subwayData:
     #그린 맵 파일 확인 후 저장 (나중에 html파일을 웹에 올려야 되서 따로 저장이 필요하긴함)
     def SaveMap(self):
         #쥬피터에서 보여주면 한글 깨져서 동일 경로 map 디렉토리에 해당 맵을 만들어줌
-        if os.path.exists('./map'):
-            if os.path.exists('./map/{}.html'.format(self.ymd)):
-                os.remove('./map/{}.html'.format(self.ymd))
+        if os.path.exists('map'):
+            
+            if os.path.exists(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd))):
+                os.remove(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd)))
         else:
-            os.makedirs('./map')
-        self.map.save('./map/{}.html'.format(self.ymd))    
+            os.makedirs('map')
+        self.map.save(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd)))    
         
     #파일 삭제
     def DelMap(self):
-        if os.path.exists('./map/{}.html'.format(self.ymd)):
-            os.remove('./map/{}.html'.format(self.ymd))        
+        if os.path.exists(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd))):
+            os.remove(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd)))        
 
     #파일 열기 
     def OpenMap(self):
         try:
-            if os.path.exists('./map/{}.html'.format(self.ymd)):
-                BASE_DIR = os.path.dirname(os.path.abspath('map/{}.html'.format(self.ymd)))
+            if os.path.exists(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd))):
+                BASE_DIR = os.path.dirname(os.path.join(os.path.abspath('map'),"{}.html".format(self.ymd)))
                 webbrowser.open('file:' + os.path.join(BASE_DIR,'{}.html'.format(self.ymd)))
                 #파일 삭제전에 잠시 텀을 줘서 저장한게 보이게끔 함
                 #나중에 파일 삭제 관련해서 다시 다뤄야할 때를 대비 (이 코드 안에서 삭제를 없애야 될 수도 있음 / 그래야 html에서 가져올수 있으니까)

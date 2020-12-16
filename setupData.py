@@ -11,7 +11,7 @@ max_dataV = [0,0,0]
 #19년 20년 월별 데이터 생성
 data2019 = {}
 data2020 = {}
-seoul_subway_dataF = os.path.abspath('Project/seoul_subway_data') + '/'
+seoul_subway_dataF = os.path.abspath('seoul_subway_data') + '/'
 
 def csv_to_dataFrame(year,dataY):
     global min_dataV,max_dataV
@@ -26,7 +26,7 @@ def csv_to_dataFrame(year,dataY):
 
         try:
             data = pd.read_csv(seoul_subway_dataF + year + '/' + csvF,encoding = 'UTF-8',index_col=False)
-        except Exception as e:
+        except:
             data = pd.read_csv(seoul_subway_dataF + year + '/' + csvF,encoding = 'EUC-KR',index_col=False)
         dataY['data' + csvF[-10:-4]] = data
         
@@ -127,7 +127,7 @@ csv_to_dataFrame(2020,data2020)
 
 terminate_time = timeit.default_timer() # 종료 시간 체크  
 
-gu_sta_name = pd.read_csv(seoul_subway_dataF + '구_역명.csv',encoding='utf-8')
+gu_sta_name = pd.read_csv(seoul_subway_dataF + 'Gu_StationNM.csv',encoding='utf-8')
 
 def insert_gu(dataY):
     #데이터에 구 추가
