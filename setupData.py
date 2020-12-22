@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-     #이거 있어야 cmd에서 주석도 한글 처리 됨 (없으면 한글주석 에러)
 import pandas as pd
 import numpy as np
 import os
-import timeit
+import timeit, time
+from tqdm import tqdm   #로딩바 확인을 위한 모듈
  
 start_time = timeit.default_timer() # 시작 시간 체크
 
@@ -32,8 +34,12 @@ def csv_to_dataFrame(year,dataY):
         
         
     c_dataY = dataY.copy()
+    
+    #로딩 바 (진행상황 확인)
+    c_dataY_keys_list = tqdm(c_dataY.keys(),desc = year + 'data : ')
+
     #데이터에서 불필요한 데이터 조정
-    for dataYM in c_dataY.keys():
+    for dataYM in c_dataY_keys_list:   
         t_dataY = pd.DataFrame()
         if '역ID' in dataY[dataYM].columns:
             dataY[dataYM].drop('등록일자',axis=1,inplace = True)
@@ -66,13 +72,13 @@ def csv_to_dataFrame(year,dataY):
             MulTdataF 데이터프레임 형태
                                                     승차총승객수 ...           |          하차총승객수              | 유동인구수
             
-                                  사용일자     20191201 20191202 ...         | 사용일자 20191201 20191202 ...
+                                사용일자     20191201 20191202 ...         | 사용일자 20191201 20191202 ...
             --------------------------------------------------------------------------------------------------------
             노선명  3호선 | 역명        |가능
                                     |회기
                                     |...
             --------------------------------------------------------------------------------------------------------
-                  2호선 | 역명        |가능
+                2호선 | 역명        |가능
                                     |회기
                                     |...
             """
@@ -109,7 +115,7 @@ def csv_to_dataFrame(year,dataY):
             
         dataY[dataYM] = t_dataY.groupby('역명').sum().rename_axis('역명').reset_index()
         dataY[dataYM]['사용일자'] = dataYM[4:]
-            
+                
 #지도를 어떻게 표현할지에 대해 필요있을 수 있는 코드
 #(모든 월별 지도의 최대 레전드 값을 고정을 시켜놓으면 전체적으로 볼때는 알아보기 쉬우나 특정 몇몇 지역들이 지나치게 흐려짐)
 #(월별로 지도의 최대 레전드 값을 다르게 하면 색은 눈에 띄게 표현 가능하나 전체적인 지도를 볼 때는 계속해서 레전드의 최댓값을 확인할 필요가 잇음)

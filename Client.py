@@ -1,6 +1,9 @@
-from subwayClass import setSubwayData,DATA   #->서버 연결
+from Connect import setSubwayData,DATA   #->서버 연결
+import sys
+from time import ctime
 
 exit_flag = 0
+
 while exit_flag == 0:
     #######################입력 란        #######################
     #나중엔 js에서 인풋값으로 사용자한테 받아와야 함
