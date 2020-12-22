@@ -1,8 +1,9 @@
 import folium
-import webbrowser
+import webbrowser               #map파일 열떄
 import time
 import matplotlib.pyplot as plt
 import pandas as pd
+
 import mapSetting
 from setupData import DATA
 import os
@@ -344,14 +345,3 @@ class subwayData:
                 else:
                     self.ax[1].set_title('{}일 ~ {}일 까지 {} 유동인구 수'.format(self.uid_st, self.uid_ed, self.u_st))               
             self.ax[1].plot(p,dd['유동인구수'])                    
-
-
-def setSubwayData(params):
-    global DATA
-    dataY = DATA['data{}'.format(params['user_input_date']['yy'])]
-
-    
-    ymd = params['user_input_date']['yy'] + params['user_input_date']['mm']
-    
-    mySub_data = subwayData(params,dataY,ymd)
-    return mySub_data
