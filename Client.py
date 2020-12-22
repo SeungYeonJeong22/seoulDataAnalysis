@@ -1,10 +1,8 @@
-from setupData import DATA
-from subwayClass import setSubwayData
+from subwayClass import setSubwayData,DATA   #->서버 연결
 
 exit_flag = 0
-
 while exit_flag == 0:
-    #######################입력 란     ##########################
+    #######################입력 란        #######################
     #나중엔 js에서 인풋값으로 사용자한테 받아와야 함
     try:
         a = input('Input yyyy mm | yyyy mm start_date end_date (ex:2020 01 | 2020 01 01 31) : ')
@@ -29,7 +27,7 @@ while exit_flag == 0:
     except Exception as e:
         print(e)
         
-    #######################실행 란        #######################
+    #######################          실행 란        #######################
     try:
         #일 값을 받을 경우 추가
         if not user_input_date['st'] == '' and not user_input_date['ed'] == '':                
@@ -43,12 +41,11 @@ while exit_flag == 0:
                 continue
             #유저로부터 st, ed 둘다 받았을 때만 확인
             if not user_input_date['st'] == '' and not user_input_date['ed'] == '':
-                st_my_subway_data,ed_my_subway_data = setSubwayData(params) 
+                my_subway_data = setSubwayData(params)
                 
                 #맵을 잘 받아왔으면 bar그래프와 line그래프 그리기
-                if not st_my_subway_data.OpenMap() == False and not ed_my_subway_data.OpenMap() == False:
-                    st_my_subway_data.DrawBarGraph()
-                    st_my_subway_data.DrawLineGraph()
+                if not my_subway_data.OpenMap() == False:
+                    my_subway_data.DrawGraph()
                     exit_flag = 1
                     break
             #시작날 혹은 끝날 만 있을 경우 처리
@@ -57,14 +54,12 @@ while exit_flag == 0:
                 continue
             else:
                 my_subway_data = setSubwayData(params)
-            
                 #map이 열리면 break
                 #맵을 잘 받아왔으면 bar그래프와 line그래프 그리기                    
                 if not my_subway_data.OpenMap() == False:
-                    my_subway_data.DrawBarGraph()
-                    my_subway_data.DrawLineGraph()
+                    my_subway_data.DrawGraph()
                     exit_flag = 1                        
                     break
     except Exception as e:
         print(e)
-        break
+ 
