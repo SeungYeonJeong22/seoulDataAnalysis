@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from socket import *
 from select import *
 # from ast import literal_eval    #서버와 통신할 때 (str->dict) 하기 위한 함수

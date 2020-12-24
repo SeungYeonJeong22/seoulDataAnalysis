@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from Connect import setSubwayData,DATA   #->서버 연결
 import sys
 from time import ctime
