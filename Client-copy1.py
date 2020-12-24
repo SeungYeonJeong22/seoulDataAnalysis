@@ -1,6 +1,6 @@
 from socket import *
 from select import *
-from ast import literal_eval    #서버와 통신할 때 (str->dict) 하기 위한 함수
+# from ast import literal_eval    #서버와 통신할 때 (str->dict) 하기 위한 함수
 import sys
 import json
 
@@ -73,7 +73,7 @@ while exit_flag == 0:
         #문제 발생 : 유저쪽에서 어느정도 판단해서 가져온 값으로 그래프 그리고 하려 했으나 스레드 문제에 걸림
         #임시 대안 : 서버쪽에서 openmap부터 그래프까지 모두 처리하는 방식으로
         #대안 문제 : 나중에 js에서 가져오려면 저장된 값을 화면에 띄워야 할 텐데 대안은 저장하지 않고 바로 서버에서 띄워주는 방식임
-        
+
             # if not user_input_date['st'] == '' and not user_input_date['ed'] == '':
             #     my_subway_data = c_sock.recv(65535)
             #     my_subway_data = my_subway_data.decode(encoding='utf-8')

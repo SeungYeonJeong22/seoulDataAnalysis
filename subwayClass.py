@@ -238,7 +238,6 @@ class subwayData:
 
     #파일 열기 
     def OpenMap(self):
-        print('In Openmap')
         try:
             if os.path.exists('./map/{}.html'.format(self.map_title)):
                 BASE_DIR = os.path.dirname(os.path.abspath('map/{}.html'.format(self.map_title)))
@@ -283,7 +282,6 @@ class subwayData:
             self.ax[0].bar()
             self.ax[0].set_title('{}역 승하차 정보'.format(self.st_info['역명']))
 
-        
     def DrawLineGraph(self):
         ss = []
         p = []
