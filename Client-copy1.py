@@ -20,7 +20,7 @@ except Exception as e:
 
 print('Connect Success')
 while exit_flag == 0:
-    #######################입력 란        #######################
+    #######################        입력 란        #######################
     #나중엔 js에서 인풋값으로 사용자한테 받아와야 함
     try:
         a = input('Input yyyy mm | yyyy mm start_date end_date (ex:2020 01 | 2020 01 01 31) : ')
