@@ -1,6 +1,7 @@
 import folium
 import webbrowser               #map파일 열떄
 import time
+import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -8,6 +9,8 @@ import mapSetting
 from setupData import DATA
 import os
 
+matplotlib.use('webagg')
+# matplotlib.is_interactive() #실행 즉시 보여지는 것이 아닌 back에서 실행하고 결과를 저장만 함
 geo_str = mapSetting.geo_str
 loc_csv = pd.read_csv(os.path.abspath('seoul_subway_data') + '/' + 'Lat_Long.csv')
 
@@ -109,9 +112,9 @@ class subwayData:
             self.map=folium.Map(location=[37.5502, 126.982], zoom_start=11, min_zoom=11,max_zoom = 11,
                                 tiles='stamentoner')
             self.location = [37.5502, 126.982]
-            
+
             self.fig,self.ax = plt.subplots(nrows = 2,ncols = 1,figsize  = (len(self.dataY[self.dataYMD]['역명']),10))            
-            
+
             self.DrawSeoulMap()
             
             """
@@ -160,7 +163,7 @@ class subwayData:
                     st_pop = pd.merge(st_pop,loc_csv,how='inner',on='역명')
                     st_pop = st_pop.dropna()
                     self.st_info = st_pop[st_pop['구'] == self.u_gu].reset_index(drop = True)
-
+                
                 self.fig,self.ax = plt.subplots(nrows = 2,ncols = 1,figsize  = (len(self.st_info['역명']),10))
                     
                 #구의 중심으로 loc 줌 확대            
@@ -199,6 +202,8 @@ class subwayData:
         except Exception as e:
             print(e)
         self.SaveMap()    
+
+        self.OpenMap()
     #지하철 역별 유동인구 파악
     #st_info = ['역명', '승차총승객수', '하차총승객수', '유동인구수', '구', 'Latitude', 'Longitude']
     def DrawSubMap(self):
@@ -228,9 +233,12 @@ class subwayData:
     def DelMap(self):
         if os.path.exists('./map/{}.html'.format(self.map_title)):
             os.remove('./map/{}.html'.format(self.map_title))        
+        
+        self.DrawGraph()
 
     #파일 열기 
     def OpenMap(self):
+        print('In Openmap')
         try:
             if os.path.exists('./map/{}.html'.format(self.map_title)):
                 BASE_DIR = os.path.dirname(os.path.abspath('map/{}.html'.format(self.map_title)))
@@ -255,7 +263,7 @@ class subwayData:
         self.DrawBarGraph()
         if not self.u_st == '':
             self.DrawLineGraph()
-        
+        plt.show()
         
     def DrawBarGraph(self):
         #서울 전체에 대한 그래프 그려줄 때

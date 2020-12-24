@@ -18,6 +18,7 @@ def Send(group,send_queue):
     print('Thread Send Start')
     while True:
         try:
+            #스레드 recv에서 받아온 값으로 판별
             recv = send_queue.get()
             if recv == 'Group Changed':
                 print('Group Changed')
@@ -27,7 +28,7 @@ def Send(group,send_queue):
                 user_params = setSubwayData(recv[0])
 
                 user_params = json.dumps(user_params.__str__(),indent=2).encode('utf-8')
-                if recv[1] != c_sock:
+                if recv[1] == c_sock:
                     c_sock.send(user_params)
                 else:
                     pass
@@ -50,6 +51,7 @@ def setSubwayData(params):
     mySub_data = subwayData(params,dataY,ymd)
     return mySub_data
 
+
 send_queue = Queue()
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(ADDR)
@@ -68,6 +70,7 @@ while True:
         print('Connect False' + str(addr_info))
         exit(0)    
 
+    #클라이언트가 여러명이 접속 할 경우 리스트에 담아가면서 시작
     if cnt > 1:
         send_queue.put('Group Changed')
         thread1 = threading.Thread(target=Send,args=(group,send_queue))
@@ -76,6 +79,7 @@ while True:
         thread1 = threading.Thread(target=Send,args=(group,send_queue))
         thread1.start()
 
+    #각 스레드의 클라이언트로부터 recv 얻어올 때까지 while문 진행x
     thread2 = threading.Thread(target=Recv, args=(c_sock,cnt,send_queue))
     thread2.start()
 
