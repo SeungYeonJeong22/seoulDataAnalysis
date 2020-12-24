@@ -3,7 +3,7 @@ from subwayClass import subwayData
 
 from socket import *
 from select import *
-from ast import literal_eval    #클라이언트와 통신할 때 (str->dict) 하기 위한 함수
+from ast import literal_eval    #클라이언트와 통신할 때 (str->dict) 하기 위한 함수 / eval 보다 보안이 좋으나 제약이 심함
 from queue import Queue
 
 import json
