@@ -137,7 +137,10 @@ gu_sta_name = pd.read_csv(seoul_subway_dataF + 'Gu_StationNM.csv',encoding='utf-
 
 def insert_gu(dataY):
     #데이터에 구 추가
-    for dataYMD in dataY.keys():
+
+    dataY_keys_list = tqdm(dataY.keys(),desc = '잔여 데이터 처리 : ')
+
+    for dataYMD in dataY_keys_list:
         if not '구' in dataY[dataYMD].columns:    
             dataY[dataYMD] = pd.merge(dataY[dataYMD],gu_sta_name,on='역명',how = 'inner')
 

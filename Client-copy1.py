@@ -1,7 +1,8 @@
 from socket import *
 from select import *
+from ast import literal_eval    #서버와 통신할 때 (str->dict) 하기 위한 함수
 import sys
-from time import ctime
+import json
 
 exit_flag = 0
 
@@ -10,13 +11,11 @@ PORT = 10000
 BUFSIZE = 1024
 ADDR = (HOST,PORT)
 
-clientSocket = socket(AF_INET,SOCK_STREAM)
+c_sock = socket(AF_INET,SOCK_STREAM)
 try:
-    clientSocket.connect(ADDR)
+    c_sock.connect(ADDR)
 except Exception as e:
-    print(e)
-    print('<------------------------------------------------>')
-    print('Connect False')
+    print('<---------------Connect False--------------->')
     exit(0)
 
 print('Connect Success')
@@ -53,13 +52,15 @@ while exit_flag == 0:
             st_ym = user_input_date['yy'] + user_input_date['mm'] + user_input_date['st']
             ed_ym = user_input_date['yy'] + user_input_date['mm'] + user_input_date['ed']            
         
-        clientSocket.send(params)    
+        params = json.dumps(params,indent=2).encode('utf-8')
+        print('--------client params : ---------',params)
+        # params = bytearray(params)
+        # aaaa
+        c_sock.send(params)    
         #유저로부터 받은 연도가 DATA.keys()에 없으면 다음 확인
-
 
         #임시
         dataYear = ['data2019','data2020']
-
 
         for datayear in dataYear:
             if not user_input_date['yy'] in datayear:
@@ -67,8 +68,12 @@ while exit_flag == 0:
                 continue
             #유저로부터 st, ed 둘다 받았을 때만 확인
             if not user_input_date['st'] == '' and not user_input_date['ed'] == '':
-                my_subway_data = clientSocket.recv(65535)
-                
+                my_subway_data = c_sock.recv(65535)
+                my_subway_data = my_subway_data.decode(encoding='utf-8')
+                print('my_subway_data1 : ',my_subway_data)
+                my_subway_data = literal_eval(my_subway_data)
+                print('my_subway_data2 : ',my_subway_data)
+
                 #맵을 잘 받아왔으면 bar그래프와 line그래프 그리기
                 if not my_subway_data.OpenMap() == False:
                     my_subway_data.DrawGraph()
@@ -79,7 +84,13 @@ while exit_flag == 0:
                 print('start date and end date must be together')
                 continue
             else:
-                clientSocket.send(params)
+                my_subway_data = json.loads((c_sock.recv(65535)).decode(encoding='utf-8'))
+                # my_subway_data = c_sock.recv(65535).decode(encoding='utf-8')
+                print('my_subway_data1 : ',my_subway_data)
+                print('my_subway_data1 Type : ',type(my_subway_data))
+                # my_subway_data = literal_eval(my_subway_data)
+                # print('my_subway_data2 : ',my_subway_data)
+                # print('my_subway_data2 Type : ',type(my_subway_data))
 
                 #map이 열리면 break
                 #맵을 잘 받아왔으면 bar그래프와 line그래프 그리기                    
@@ -89,4 +100,7 @@ while exit_flag == 0:
                     break
     except Exception as e:
         print(e)
- 
+        exit(0)
+        c_sock.close()
+
+    c_sock.close()

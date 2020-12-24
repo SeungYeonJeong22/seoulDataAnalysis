@@ -256,6 +256,7 @@ class subwayData:
         if not self.u_st == '':
             self.DrawLineGraph()
         
+        
     def DrawBarGraph(self):
         #서울 전체에 대한 그래프 그려줄 때
         if self.u_gu == '':
@@ -273,7 +274,7 @@ class subwayData:
             bar = self.st_info[['승차총승객수','하차총승객수']]
             self.ax[0].bar()
             self.ax[0].set_title('{}역 승하차 정보'.format(self.st_info['역명']))
-            
+
         
     def DrawLineGraph(self):
         ss = []
