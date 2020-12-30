@@ -3,8 +3,9 @@ import pandas as pd
 import numpy as np
 import os
 import timeit, time
+
 from tqdm import tqdm   #로딩바 확인을 위한 모듈
- 
+
 start_time = timeit.default_timer() # 시작 시간 체크
 
 min_dataV = 0
