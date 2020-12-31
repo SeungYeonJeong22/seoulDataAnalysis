@@ -10,13 +10,12 @@ from setupData import DATA
 import os
 
 matplotlib.use('webagg')
-# matplotlib.is_interactive() #실행 즉시 보여지는 것이 아닌 back에서 실행하고 결과를 저장만 함
+matplotlib.is_interactive() #실행 즉시 보여지는 것이 아닌 back에서 실행하고 결과를 저장만 함
 geo_str = mapSetting.geo_str
 loc_csv = pd.read_csv(os.path.abspath('seoul_subway_data') + '/' + 'Lat_Long.csv')
 
 class subwayData:
     global geo_str,DATA
-    
     """
      --------------------
     |    Map Function    |
@@ -27,8 +26,8 @@ class subwayData:
         #font 설정
         plt.rcParams['font.family'] = 'AppleGothic'        
         
-        self.dataY      = dataY            #data2019     dtypes : dataframe
-        self.ymd         = ymd               #201910/20191001      dtypes : str
+        self.dataY      = dataY              #data2019                  dtypes : dataframe
+        self.ymd         = ymd               #201910/20191001           dtypes : str
         self.dataYMD     = 'data' + ymd      #data201910/data20191001   dtypes : str
 
         self.params = params
@@ -128,7 +127,7 @@ class subwayData:
             - 참고) 경위도 csv는 구글 스프레드 시트의 awesome table geo를 활용해서 얻음
             """
         elif self.u_st == '':
-            try:            
+            try:
                 #구에 해당하는 역명들의 데이터 프레임 생성
                 if self.uid_st == '':
                     st_pop = self.dataY[self.dataYMD][self.dataY[self.dataYMD]['구'] == self.u_gu][['구','역명','승차총승객수','하차총승객수','유동인구수']]
@@ -201,9 +200,9 @@ class subwayData:
                 ).add_to(self.map)
         except Exception as e:
             print(e)
-        self.SaveMap()    
-
+        self.SaveMap()
         self.OpenMap()
+
     #지하철 역별 유동인구 파악
     #st_info = ['역명', '승차총승객수', '하차총승객수', '유동인구수', '구', 'Latitude', 'Longitude']
     def DrawSubMap(self):
@@ -217,8 +216,8 @@ class subwayData:
         except Exception as e:
             print(e)
         self.SaveMap()
+        self.OpenMap()
 
-    
     #그린 맵 파일 확인 후 저장 (나중에 html파일을 웹에 올려야 되서 따로 저장이 필요하긴함)
     def SaveMap(self):
         #쥬피터에서 보여주면 한글 깨져서 동일 경로 map 디렉토리에 해당 맵을 만들어줌
@@ -262,7 +261,6 @@ class subwayData:
         self.DrawBarGraph()
         if not self.u_st == '':
             self.DrawLineGraph()
-        plt.show()
         
     def DrawBarGraph(self):
         #서울 전체에 대한 그래프 그려줄 때
@@ -351,4 +349,4 @@ class subwayData:
                     self.ax[1].set_title('{}일 ~ {}일 까지 {} 유동인구 수'.format(self.uid_st, self.uid_ed, self.u_st))
                 else:
                     self.ax[1].set_title('{}일 ~ {}일 까지 {} 유동인구 수'.format(self.uid_st, self.uid_ed, self.u_st))               
-            self.ax[1].plot(p,dd['유동인구수'])                    
+            self.ax[1].plot(p,dd['유동인구수'])

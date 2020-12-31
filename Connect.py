@@ -28,7 +28,7 @@ def Send(group,send_queue):
             for c_sock in group:
                 user_params = setSubwayData(recv[0])
 
-                user_params = json.dumps(user_params.__str__(),indent=2).encode('utf-8')
+                user_params = json.dumps(user_params.__str__(),indent=4).encode('utf-8')
                 if recv[1] == c_sock:
                     c_sock.send(user_params)
                 else:

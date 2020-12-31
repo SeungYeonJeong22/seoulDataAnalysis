@@ -5,6 +5,8 @@ from select import *
 import sys
 import json
 
+from matplotlib import pyplot as plt
+
 exit_flag = 0
 
 HOST = '127.0.0.1'
