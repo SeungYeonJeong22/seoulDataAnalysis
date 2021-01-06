@@ -52,7 +52,6 @@ def setSubwayData(params):
     mySub_data = subwayData(params,dataY,ymd)
     return mySub_data
 
-
 send_queue = Queue()
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(ADDR)

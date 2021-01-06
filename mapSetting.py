@@ -20,6 +20,6 @@ while min_len_geoStr == False:
     for i,t in enumerate(geo_str['features']):
         if not t['properties']['code'][0] == '1':
             del geo_str['features'][i]
-    k[1] = len(geo_str['features'])        
+    k[1] = len(geo_str['features'])
 
 print('json 처리 후 지역 수 : ',len(geo_str['features']))
